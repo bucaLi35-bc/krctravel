@@ -127,48 +127,38 @@ ${tarih}`;
       this.reset();
     });
   </script>
-</body>
-</html>
-<!-- Seferler Bölümü -->
-<section style="background-color: #FFA500; padding: 20px; font-family: Arial, sans-serif;">
-  <h2 style="text-align: center; color: white;">Sefer Sorgulama</h2>
-  <form style="max-width: 800px; margin: auto; background-color: white; padding: 20px; border-radius: 8px;">
-    <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between;">
-      
-      <div style="flex: 1; min-width: 200px;">
-        <label for="nereden">Nereden</label><br>
-        <select id="nereden" name="nereden" style="width: 100%; padding: 8px;">
-          <option value="">Kalkış Noktası Seçin</option>
-          <option value="ankara">Ankara</option>
-          <option value="istanbul">İstanbul</option>
-          <option value="izmir">İzmir</option>
-        </select>
-      </div>
-
-      <div style="flex: 1; min-width: 200px;">
-        <label for="nereye">Nereye</label><br>
-        <select id="nereye" name="nereye" style="width: 100%; padding: 8px;">
-          <option value="">Varış Noktası Seçin</option>
-          <option value="ankara">Ankara</option>
-          <option value="istanbul">İstanbul</option>
-          <option value="izmir">İzmir</option>
-        </select>
-      </div>
-
-      <div style="flex: 1; min-width: 200px;">
-        <label for="tarih">Gidiş Tarihi</label><br>
-        <input type="date" id="tarih" name="tarih" style="width: 100%; padding: 8px;">
-      </div>
-
-      <div style="flex: 1; min-width: 200px; display: flex; align-items: flex-end; gap: 10px;">
-        <button type="button" onclick="document.getElementById('tarih').value = new Date().toISOString().split('T')[0];" style="padding: 8px 12px;">BUGÜN</button>
-        <button type="button" onclick="let d = new Date(); d.setDate(d.getDate() + 1); document.getElementById('tarih').value = d.toISOString().split('T')[0];" style="padding: 8px 12px;">YARIN</button>
-      </div>
-
+<section style="padding: 40px; background-color: #f7f7f7; font-family: Arial;">
+  <h2 style="text-align:center; color:#333;">Bilet Ara</h2>
+  <form style="max-width: 800px; margin: auto; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+    <div style="flex: 1 1 200px;">
+      <label>Nereden</label>
+      <select style="width: 100%; padding: 10px;">
+        <option>Kalkış Noktası Seçiniz</option>
+        <option>İzmir</option>
+        <option>Ankara</option>
+        <option>İstanbul</option>
+      </select>
     </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-      <button type="submit" style="background-color: #FF4500; color: white; padding: 10px 20px; border: none; border-radius: 4px;">BİLET ARA →</button>
+    <div style="flex: 1 1 200px;">
+      <label>Nereye</label>
+      <select style="width: 100%; padding: 10px;">
+        <option>Varış Noktası Seçiniz</option>
+        <option>İzmir</option>
+        <option>Ankara</option>
+        <option>İstanbul</option>
+      </select>
+    </div>
+    <div style="flex: 1 1 200px;">
+      <label>Gidiş Tarihi</label>
+      <input type="date" style="width: 100%; padding: 10px;">
+    </div>
+    <div style="flex: 1 1 200px; align-self: flex-end;">
+      <button style="width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; cursor: pointer;">
+        Bilet Ara
+      </button>
     </div>
   </form>
 </section>
+</body>
+</html>
+
