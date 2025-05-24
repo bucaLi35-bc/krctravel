@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KRCTRAVEL</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #fff3e0; }
+    header { background-color: #ff6f00; color: white; padding: 20px; text-align: center; }
+    nav { background-color: #ff8f00; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    section { padding: 40px 20px; }
+    footer { background-color: #ff6f00; color: white; text-align: center; padding: 20px; }
+    .container { max-width: 1000px; margin: auto; }
+    .success-message { color: green; font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KRCTRAVEL</h1>
+    <p>Sanal Otobüsçülük Deneyimi</p>
+  </header>
+
+  <nav>
+    <a href="#anasayfa">Anasayfa</a>
+    <a href="#hakkimizda">Hakkımızda</a>
+    <a href="#filo">Filo</a>
+    <a href="#seferler">Seferler</a>
+    <a href="#bilet">Bilet Al</a>
+    <a href="#topluluk">Topluluk</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+
+  <section id="anasayfa" class="container">
+    <h2>Anasayfa</h2>
+    <p>KRCTRAVEL'e hoş geldiniz. Sanal otobüs taşımacılığına meraklılar için oluşturulmuş bir topluluktur.</p>
+  </section>
+
+  <section id="hakkimizda" class="container">
+    <h2>Hakkımızda</h2>
+    <p>Bu platform gerçek bir taşımacılık firması değil, otobüs simülasyonlarını sanal ortamda yaşamak isteyenler için kurulmuştur.</p>
+  </section>
+
+  <section id="filo" class="container">
+    <h2>Filo</h2>
+    <p>Filo modellerimiz arasında Mercedes-Benz Tourismo, Travego, Neoplan Tourliner, Setra 516 HDH ve daha fazlası bulunmaktadır.</p>
+  </section>
+
+  <section id="seferler" class="container">
+    <h2>Seferler</h2>
+    <p>Yakında düzenlenecek sanal seferler burada listelenecek.</p>
+  </section>
+
+  <section id="bilet" class="container">
+    <h2>Bilet Al</h2>
+    <form id="biletForm">
+      <label>Ad Soyad: <input type="text" name="adsoyad" required></label><br><br>
+      <label>TC Kimlik No: <input type="text" name="tckimlik" maxlength="11" required></label><br><br>
+      <label>E-posta: <input type="email" name="email" required></label><br><br>
+      <label>Sefer Seçimi:
+        <select name="sefer">
+          <option>Kayseri - İstanbul</option>
+          <option>İzmir - Ankara</option>
+          <option>Antalya - Bursa</option>
+        </select>
+      </label><br><br>
+      <label>Tarih: <input type="date" name="tarih" required></label><br><br>
+      <button type="submit">Bileti Al</button>
+    </form>
+    <div id="biletSonuc" class="success-message"></div>
+    <canvas id="qrCanvas" style="display:none;"></canvas>
+  </section>
+
+  <section id="topluluk" class="container">
+    <h2>Topluluk</h2>
+    <p>Bize katıl: <a href="https://discord.gg/krctravel">Discord</a>, <a href="#">Instagram</a>, <a href="#">YouTube</a></p>
+  </section>
+
+  <section id="iletisim" class="container">
+    <h2>İletişim</h2>
+    <p>Adres: Şeker Mah. Muhsin Yazıcıoğlu Bulv. Kayseri Otogarı<br>
+       Telefon: 0850 550 00 38<br>
+       E-posta: iletisim@krctravel.com</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 KRCTRAVEL - Tüm Hakları Saklıdır.</p>
+  </footer>
+
+  <script>
+    document.getElementById('biletForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const adsoyad = this.adsoyad.value;
+      const tckimlik = this.tckimlik.value;
+      const email = this.email.value;
+      const sefer = this.sefer.value;
+      const tarih = this.tarih.value;
+
+      const biletMetni = `Sayın ${adsoyad}, ${sefer} seferi için ${tarih} tarihine biletiniz oluşturuldu.`;
+      document.getElementById('biletSonuc').innerText = biletMetni;
+
+      const qrData = `KRCTRAVEL
+${adsoyad}
+${tckimlik}
+${email}
+${sefer}
+${tarih}`;
+      const canvas = document.getElementById('qrCanvas');
+
+      await QRCode.toCanvas(canvas, qrData);
+      const qrImgData = canvas.toDataURL("image/png");
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(12);
+      doc.text("KRCTRAVEL BİLETİ", 10, 10);
+      doc.text(`Ad Soyad: ${adsoyad}`, 10, 20);
+      doc.text(`TC Kimlik No: ${tckimlik}`, 10, 30);
+      doc.text(`E-posta: ${email}`, 10, 40);
+      doc.text(`Sefer: ${sefer}`, 10, 50);
+      doc.text(`Tarih: ${tarih}`, 10, 60);
+      doc.addImage(qrImgData, 'PNG', 10, 70, 50, 50);
+      doc.save(`KRCTRAVEL_Bilet_${adsoyad}.pdf`);
+
+      this.reset();
+    });
+  </script>
+</body>
+</html>
